@@ -296,6 +296,7 @@ set(sources
 	escape_string
 	string_util
 	file
+	file_view_pool
 	path
 	fingerprint
 	gzip
