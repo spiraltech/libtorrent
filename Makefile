@@ -317,6 +317,7 @@ SOURCES = \
   gzip.cpp                        \
   hasher.cpp                      \
   hasher512.cpp                   \
+  has_picker.cpp                  \
   hex.cpp                         \
   http_connection.cpp             \
   http_parser.cpp                 \
@@ -458,6 +459,7 @@ HEADERS = \
   gzip.hpp                     \
   hasher.hpp                   \
   hasher512.hpp                \
+  hash_picker.hpp              \
   heterogeneous_queue.hpp      \
   hex.hpp                      \
   http_connection.hpp          \
