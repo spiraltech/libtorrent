@@ -2302,7 +2302,7 @@ bool is_downloading_state(int const st)
 		auto self = shared_from_this();
 		for (int i = 0; i < num_outstanding; ++i)
 		{
-			m_ses.disk_thread().async_hash(m_storage, m_checking_piece
+			m_ses.disk_thread().async_hash(m_storage, m_checking_piece, {}
 				, disk_interface::sequential_access | disk_interface::volatile_read
 				, [self](piece_index_t p, sha1_hash const& h, storage_error const& error)
 					{ self->on_piece_hashed(p, h, error); });
@@ -2420,7 +2420,7 @@ bool is_downloading_state(int const st)
 			}
 
 			auto self = shared_from_this();
-			m_ses.disk_thread().async_hash(m_storage, m_checking_piece
+			m_ses.disk_thread().async_hash(m_storage, m_checking_piece, {}
 				, disk_interface::sequential_access | disk_interface::volatile_read
 				, [self](piece_index_t p, sha1_hash const& h, storage_error const& e)
 				{ self->on_piece_hashed(p, h, e); });
@@ -10077,10 +10077,8 @@ bool is_downloading_state(int const st)
 
 		TORRENT_ASSERT(m_storage);
 
-		auto self = shared_from_this();
-		m_ses.disk_thread().async_hash(m_storage, piece, {}
-			, [self](piece_index_t p, sha1_hash const& h, storage_error const& error)
-			{ self->on_piece_verified(p, h, error); });
+		m_ses.disk_thread().async_hash(m_storage, piece, {}, {}
+			, std::bind(&torrent::on_piece_verified, shared_from_this(), _1, _2, _3));
 	}
 
 	announce_entry* torrent::find_tracker(std::string const& url)
